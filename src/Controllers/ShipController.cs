@@ -26,6 +26,8 @@ public class ShipController : ControllerBase
         var match = Regex.Match(ship.Id, regex, RegexOptions.IgnoreCase);
         if (!match.Success)
             return BadRequest("Id does not match pattern.");
+        if (ship.LengthInMeters <= 0 || ship.WidthInMeters <= 0)
+            return BadRequest("Invalid values for width or length.");
 
         var saveResult = _shipRepository.SaveShip(ship);
         return saveResult ? Ok() : Conflict();
